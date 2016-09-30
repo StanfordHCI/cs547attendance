@@ -86,7 +86,7 @@
     return get_spreadsheet = cfy(function*(){
       var current_time;
       current_time = Date.now();
-      if (Math.abs(current_time - last_time_fetched) < 30000) {
+      if (Math.abs(current_time - last_time_fetched) < 15000) {
         return cached_spreadsheet_results;
       }
       cached_spreadsheet_results = (yield get_spreadsheet_real());
