@@ -12,9 +12,9 @@
     return $.getJSON('/attendance?' + $.param({
       sunetid: sunetid
     }), function(results){
-      var i$, len$, item, results$ = [];
+      var i$, len$, item;
       if (results.length === 0) {
-        $('#results_view').html('No records of seminars attended for this user.<br>Please record your attendance at <a href="http://hci.st/547">http://hci.st/547</a>');
+        $('#results_view').html('No records of seminars attended for this user.<br>If any seminars are missing, please record your attendance at <a href="http://hci.st/547">http://hci.st/547</a>');
         return;
       }
       $('#results_view').html('');
@@ -22,9 +22,10 @@
       $('#results_view').append('<br>');
       for (i$ = 0, len$ = results.length; i$ < len$; ++i$) {
         item = results[i$];
-        results$.push($('#results_view').append($('<div>').text(item)));
+        $('#results_view').append($('<div>').text(item));
       }
-      return results$;
+      $('#results_view').append('<br>');
+      return $('#results_view').append($('<div>').html('If any seminars are missing, please record your attendance at <a href="http://hci.st/547">http://hci.st/547</a>'));
     });
   };
 }).call(this);
