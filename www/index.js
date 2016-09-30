@@ -33,4 +33,7 @@
       return check_clicked();
     }
   };
+  $(document).ready(function(){
+    return $('#sunetid_input').focus();
+  });
 }).call(this);

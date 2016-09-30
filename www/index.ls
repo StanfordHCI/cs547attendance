@@ -19,3 +19,6 @@ export check_clicked = ->
 export sunetid_keydown = (event) ->
   if event.keyCode == 13
     check_clicked()
+
+$(document).ready ->
+  $('#sunetid_input').focus()
