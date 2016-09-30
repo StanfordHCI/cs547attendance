@@ -14,10 +14,12 @@
     }), function(results){
       var i$, len$, item, results$ = [];
       if (results.length === 0) {
-        $('#results_view').text('No seminars attended');
+        $('#results_view').html('No records of seminars attended for this user.<br>Please record your attendance at <a href="http://hci.st/547">http://hci.st/547</a>');
         return;
       }
       $('#results_view').html('');
+      $('#results_view').append($('<div>').text('Attended the following seminars:'));
+      $('#results_view').append('<br>');
       for (i$ = 0, len$ = results.length; i$ < len$; ++i$) {
         item = results[i$];
         results$.push($('#results_view').append($('<div>').text(item)));
