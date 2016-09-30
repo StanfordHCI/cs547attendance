@@ -15,3 +15,7 @@ export check_clicked = ->
     $('#results_view').append $('<div>').text(item)
   $('#results_view').append '<br>'
   $('#results_view').append $('<div>').html('If any seminars are missing, please record your attendance at <a href="http://hci.st/547">http://hci.st/547</a>')
+
+export sunetid_keydown = (event) ->
+  if event.keyCode == 13
+    check_clicked()
