@@ -75,7 +75,7 @@ do ->
 
   get_spreadsheet := cfy ->*
     current_time = Date.now()
-    if Math.abs(current_time - last_time_fetched) < 10000 # within the past 5 seconds
+    if Math.abs(current_time - last_time_fetched) < 30000 # within the past 30 seconds
       return cached_spreadsheet_results
     cached_spreadsheet_results := yield get_spreadsheet_real()
     last_time_fetched := current_time
