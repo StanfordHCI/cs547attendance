@@ -75,7 +75,7 @@ do ->
 
   get_spreadsheet := cfy ->*
     current_time = Date.now()
-    if Math.abs(current_time - last_time_fetched) < 15000 # within the past 15 seconds
+    if Math.abs(current_time - last_time_fetched) < 30000 # within the past 30 seconds
       return cached_spreadsheet_results
     cached_spreadsheet_results := yield get_spreadsheet_real()
     last_time_fetched := current_time
@@ -95,6 +95,19 @@ get_seminars_attended_by_user = cfy (sunetid) ->*
     output.push seminar
   return output
 
+list_all_users = cfy ->*
+  spreadsheet = yield get_spreadsheet()
+  output = []
+  output_set = {}
+  for line in spreadsheet
+    sunetid = line['SUNet ID']
+    if output_set[sunetid]?
+      continue
+    output.push sunetid
+    output_set[sunetid] = true
+  output.sort()
+  return output
+
 app.get '/attendance', ->*
   {sunetid} = this.request.query
   if not sunetid?
@@ -102,6 +115,16 @@ app.get '/attendance', ->*
     return
   seminars = yield get_seminars_attended_by_user sunetid
   this.body = JSON.stringify seminars
+
+app.get '/pass_nopass', ->*
+  output = []
+  all_users = yield list_all_users()
+  for user in all_users
+    console.log user
+    seminars_attended = yield get_seminars_attended_by_user(user)
+    passed = seminars_attended.length >= 9
+    output.push "#{user}: #{passed}"
+  this.body = output.join('\n')
 
 /*
 do cfy ->*
