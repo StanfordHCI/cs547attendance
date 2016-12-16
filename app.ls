@@ -124,7 +124,6 @@ app.get '/pass_nopass', ->*
   output = []
   all_users = yield list_all_users()
   for user in all_users
-    console.log user
     seminars_attended = yield get_seminars_attended_by_user(user)
     passed = seminars_attended.length >= 9
     output.push "#{user}: #{passed}"

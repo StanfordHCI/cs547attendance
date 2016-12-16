@@ -151,7 +151,6 @@
     all_users = (yield list_all_users());
     for (i$ = 0, len$ = all_users.length; i$ < len$; ++i$) {
       user = all_users[i$];
-      console.log(user);
       seminars_attended = (yield get_seminars_attended_by_user(user));
       passed = seminars_attended.length >= 9;
       output.push(user + ": " + passed);
