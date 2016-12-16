@@ -95,13 +95,18 @@
     });
   })();
   get_seminars_attended_by_user = cfy(function*(sunetid){
-    var spreadsheet, output, output_set, i$, len$, line, seminar;
+    var spreadsheet, output, output_set, i$, len$, line, cur_sunetid, seminar;
+    sunetid = sunetid.trim().toLowerCase();
     spreadsheet = (yield get_spreadsheet());
     output = [];
     output_set = {};
     for (i$ = 0, len$ = spreadsheet.length; i$ < len$; ++i$) {
       line = spreadsheet[i$];
-      if (line['SUNet ID'] !== sunetid) {
+      cur_sunetid = line['SUNet ID'];
+      if (cur_sunetid == null) {
+        continue;
+      }
+      if (cur_sunetid.trim().toLowerCase() !== sunetid) {
         continue;
       }
       seminar = line['Which seminar are you currently attending?'];
@@ -120,7 +125,7 @@
     output_set = {};
     for (i$ = 0, len$ = spreadsheet.length; i$ < len$; ++i$) {
       line = spreadsheet[i$];
-      sunetid = line['SUNet ID'];
+      sunetid = line['SUNet ID'].trim().toLowerCase();
       if (output_set[sunetid] != null) {
         continue;
       }

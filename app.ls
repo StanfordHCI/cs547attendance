@@ -82,11 +82,15 @@ do ->
     return cached_spreadsheet_results
 
 get_seminars_attended_by_user = cfy (sunetid) ->*
+  sunetid = sunetid.trim().toLowerCase()
   spreadsheet = yield get_spreadsheet()
   output = []
   output_set = {}
   for line in spreadsheet
-    if line['SUNet ID'] != sunetid
+    cur_sunetid = line['SUNet ID']
+    if not cur_sunetid?
+      continue
+    if cur_sunetid.trim().toLowerCase() != sunetid
       continue
     seminar = line['Which seminar are you currently attending?']
     if output_set[seminar]?
@@ -100,7 +104,7 @@ list_all_users = cfy ->*
   output = []
   output_set = {}
   for line in spreadsheet
-    sunetid = line['SUNet ID']
+    sunetid = line['SUNet ID'].trim().toLowerCase()
     if output_set[sunetid]?
       continue
     output.push sunetid
