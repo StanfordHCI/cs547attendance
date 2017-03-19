@@ -11,13 +11,13 @@ leftpad_to_two = (num) ->
     return '0' + num
   return num.toString()
 
-sorted_by_date = (input_strings) ->
+export sorted_by_date = (input_strings) ->
   output = []
   for input_string in input_strings
     if not input_string?trim?
       continue
     input_string = input_string.trim()
-    input_string = fix_input_string(fix_input_string)
+    input_string = fix_input_string(input_string)
     colon_idx = input_string.indexOf(':')
     if colon_idx == -1
       colon_idx = input_string.indexOf('-')

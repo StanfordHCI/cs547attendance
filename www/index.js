@@ -15,7 +15,7 @@
     }
     return num.toString();
   };
-  sorted_by_date = function(input_strings){
+  out$.sorted_by_date = sorted_by_date = function(input_strings){
     var output, i$, len$, input_string, colon_idx, date, remainder, ref$, month, day, date_new;
     output = [];
     for (i$ = 0, len$ = input_strings.length; i$ < len$; ++i$) {
@@ -24,7 +24,7 @@
         continue;
       }
       input_string = input_string.trim();
-      input_string = fix_input_string(fix_input_string);
+      input_string = fix_input_string(input_string);
       colon_idx = input_string.indexOf(':');
       if (colon_idx === -1) {
         colon_idx = input_string.indexOf('-');
