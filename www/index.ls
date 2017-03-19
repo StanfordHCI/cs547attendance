@@ -1,3 +1,11 @@
+substitutions = {
+  '02/10: TBD': '02/10: Alex Leavitt'
+  '03/10: TBD': '03/10: Shumin Zhai'
+}
+
+fix_input_string = (input_string) ->
+  return input_string[substitutions] ? input_string
+
 leftpad_to_two = (num) ->
   if 0 <= num <= 9
     return '0' + num
@@ -6,6 +14,10 @@ leftpad_to_two = (num) ->
 sorted_by_date = (input_strings) ->
   output = []
   for input_string in input_strings
+    if not input_string?trim?
+      continue
+    input_string = input_string.trim()
+    input_string = fix_input_string(fix_input_string)
     colon_idx = input_string.indexOf(':')
     if colon_idx == -1
       colon_idx = input_string.indexOf('-')
