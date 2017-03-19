@@ -4,7 +4,7 @@ substitutions = {
 }
 
 fix_input_string = (input_string) ->
-  return input_string[substitutions] ? input_string
+  return substitutions[input_string] ? input_string
 
 leftpad_to_two = (num) ->
   if 0 <= num <= 9

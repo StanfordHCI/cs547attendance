@@ -7,7 +7,7 @@
   };
   fix_input_string = function(input_string){
     var ref$;
-    return (ref$ = input_string[substitutions]) != null ? ref$ : input_string;
+    return (ref$ = substitutions[input_string]) != null ? ref$ : input_string;
   };
   leftpad_to_two = function(num){
     if (0 <= num && num <= 9) {
