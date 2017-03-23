@@ -157,6 +157,20 @@
     }
     return this.body = output.join('\n');
   });
+  app.get('/nopass', function*(){
+    var output, all_users, i$, len$, user, seminars_attended, passed;
+    output = [];
+    all_users = (yield list_all_users());
+    for (i$ = 0, len$ = all_users.length; i$ < len$; ++i$) {
+      user = all_users[i$];
+      seminars_attended = (yield get_seminars_attended_by_user(user));
+      passed = seminars_attended.length >= 9;
+      if (!passed) {
+        output.push(user + "");
+      }
+    }
+    return this.body = output.join('\n');
+  });
   /*
   do cfy ->*
     results = yield get_seminars_attended_by_user('gkovacs')

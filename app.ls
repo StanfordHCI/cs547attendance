@@ -129,6 +129,16 @@ app.get '/pass_nopass', ->*
     output.push "#{user}: #{passed}"
   this.body = output.join('\n')
 
+app.get '/nopass', ->*
+  output = []
+  all_users = yield list_all_users()
+  for user in all_users
+    seminars_attended = yield get_seminars_attended_by_user(user)
+    passed = seminars_attended.length >= 9
+    if not passed
+      output.push "#{user}"
+  this.body = output.join('\n')
+
 /*
 do cfy ->*
   results = yield get_seminars_attended_by_user('gkovacs')
