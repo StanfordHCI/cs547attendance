@@ -7,7 +7,9 @@ Alias for the above: http://hci.st/cs547check
 Source code: https://github.com/gkovacs/cs547attendance
 
 To see who passed and didn’t, visit http://cs547check.herokuapp.com/pass_nopass
+
 To see just the list of non-passing students, visit http://cs547check.herokuapp.com/nopass 
+
 To get the enrolled students who aren’t passing, download the enrolled students table on axess on the class roster sheet, it is a blue icon with a red arrow on the top-right corner of the table to the right of the “Find” button (it should be called ps.xls)
 
 And then git clone the cs547attendance repo and move ps.xls into the directory and run scripts/get_nonpassing_students
