@@ -6,6 +6,14 @@ Alias for the above: http://hci.st/cs547check
 
 Source code: https://github.com/gkovacs/cs547attendance
 
+## At the start of the term
+
+Visit https://dashboard.heroku.com/apps/cs547check/settings to manage. geza and msb have access and can add you as a collaborator.
+
+Set the config variable `spreadsheet_id` to the spreadsheet id (it is just numbers and letters). Make sure the spreadsheet is shared with `google_service_account.client_email`. Do not change the config variable `google_service_account`
+
+## At the end of the term
+
 To see who passed and didn’t, visit http://cs547check.herokuapp.com/pass_nopass
 
 To see just the list of non-passing students, visit http://cs547check.herokuapp.com/nopass 
