@@ -5,6 +5,7 @@ require! {
   'koa-static'
   'koa-router'
   'koa-logger'
+  'glob'
 }
 
 GoogleSpreadsheet = require 'google-spreadsheet'
@@ -157,9 +158,14 @@ do cfy ->*
   console.log results
 */
 
+serve_static = koa-static(__dirname + '/www')
+for let filepath in glob.sync('www/**')
+  fileroute = filepath.replace('www', '')
+  app.get(fileroute, serve_static)
+
 kapp.use(app.routes())
 kapp.use(app.allowedMethods())
-kapp.use(koa-static(__dirname + '/www'))
+#kapp.use(koa-static(__dirname + '/www'))
 port = process.env.PORT ? 5000
 kapp.listen(port)
 console.log "listening to port #{port} visit http://localhost:#{port}"
