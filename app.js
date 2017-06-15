@@ -61,7 +61,7 @@
   saml = new SamlStrategy({
     path: '/saml/consume',
     loginPath: '/login',
-    host: 'localhost:5000',
+    host: 'cs547check.stanford.edu',
     protocol: 'https://',
     signatureAlgorithm: 'sha256',
     identifierFormat: 'urn:oasis:names:tc:SAML:2.0:nameid-format:transient',
