@@ -71,8 +71,8 @@
     forceAuthn: false,
     skipRequestCompression: false,
     validateInResponseTo: true,
-    entryPoint: idps['prod'].entryPoint,
-    cert: idps['prod'].cert,
+    entryPoint: idps['uat'].entryPoint,
+    cert: idps['uat'].cert,
     issuer: 'https://cs547check.stanford.edu/'
   }, function(profile, done){
     return done(null, profile);
