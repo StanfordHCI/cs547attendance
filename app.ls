@@ -190,8 +190,8 @@ saml = new SamlStrategy({
   forceAuthn: false
   skipRequestCompression: false
   validateInResponseTo: true
-  entryPoint: idps['itlabv2'].entryPoint #'https://idp.itlab.stanford.edu/idp/shibboleth'
-  cert: idps['itlabv2'].cert
+  entryPoint: idps['prod'].entryPoint #'https://idp.itlab.stanford.edu/idp/shibboleth'
+  cert: idps['prod'].cert
   #issuer: 'https://localhost:5000/login/callback'
   issuer: 'https://localhost:5000/saml/consume'
   #issuer: 'passport-saml'
