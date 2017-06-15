@@ -177,8 +177,9 @@ idps = {
 }
 
 SamlStrategy = require('passport-saml').Strategy
-saml = new SamlStrategy({
-  path: '/saml/consume'
+saml_config = {
+  #path: '/saml/consume'
+  path: '/Shibboleth.sso/SAML2/GET'
   loginPath: '/login'
   host: 'cs547check.stanford.edu'
   protocol: 'https://'
@@ -196,7 +197,8 @@ saml = new SamlStrategy({
   issuer: 'https://cs547check.stanford.edu/' #'https://localhost:5000/saml/consume'
   #issuer: 'passport-saml'
   #protocol: 'http'
-}, (profile, done) ->
+}
+saml = new SamlStrategy(saml_config, (profile, done) ->
   done(null, profile)
 )
 
@@ -224,11 +226,32 @@ app.post '/login', passport.authenticate('saml', {successRedirect: '/secret', fa
 
 app.get '/login', passport.authenticate('saml', {successRedirect: '/secret', failureRedirect: '/'})
 
-app.post '/saml/consume', passport.authenticate('saml', {successRedirect: '/secret', failureRedirect: '/'}), ->*
-  this.redirect('/secret')
+#app.post '/saml/consume', passport.authenticate('saml', {successRedirect: '/secret', failureRedirect: '/'}), ->*
+app.post '/Shibboleth.sso/SAML2/POST', passport.authenticate('saml'), ->*
+  #this.redirect('/secret')
+  if this.session
+    url = this.session.authReturnUrl
+    delete this.session.authReturnUrl
+    this.redirect url
+    return
+  this.redirect '/secret'
 
-app.get '/saml/consume', passport.authenticate('saml', {successRedirect: '/secret', failureRedirect: '/'}), ->*
-  this.redirect('/secret')
+#app.get '/saml/consume', passport.authenticate('saml', {successRedirect: '/secret', failureRedirect: '/'}), ->*
+app.get '/Shibboleth.sso/SAML2/GET', passport.authenticate('saml'), ->*
+  #this.redirect('/secret')
+  if this.session
+    url = this.session.authReturnUrl
+    delete this.session.authReturnUrl
+    this.redirect url
+    return
+  this.redirect '/secret'
+
+app.get '/Shibboleth.sso/Metadata', ->*
+  this.type = 'application/xml'
+  this.status = 200
+  this.body = saml.generateServiceProviderMetadata()
+  # pass decryptionCert as argument
+  # https://github.com/bergie/passport-saml/blob/master/lib/passport-saml/saml.js
 
 app.get '/logout', ->*
   this.logout()
