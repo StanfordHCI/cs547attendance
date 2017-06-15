@@ -193,7 +193,7 @@ saml = new SamlStrategy({
   entryPoint: idps['prod'].entryPoint #'https://idp.itlab.stanford.edu/idp/shibboleth'
   cert: idps['prod'].cert
   #issuer: 'https://localhost:5000/login/callback'
-  issuer: 'https://localhost:5000/saml/consume'
+  issuer: 'https://cs547check.stanford.edu/' #'https://localhost:5000/saml/consume'
   #issuer: 'passport-saml'
   #protocol: 'http'
 }, (profile, done) ->

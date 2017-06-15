@@ -73,7 +73,7 @@
     validateInResponseTo: true,
     entryPoint: idps['prod'].entryPoint,
     cert: idps['prod'].cert,
-    issuer: 'https://localhost:5000/saml/consume'
+    issuer: 'https://cs547check.stanford.edu/'
   }, function(profile, done){
     return done(null, profile);
   });
