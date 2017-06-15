@@ -179,7 +179,7 @@ idps = {
 SamlStrategy = require('passport-saml').Strategy
 saml_config = {
   #path: '/saml/consume'
-  path: '/Shibboleth.sso/SAML2/GET'
+  path: '/Shibboleth.sso/SAML2/POST'
   loginPath: '/login'
   host: 'cs547check.stanford.edu'
   protocol: 'https://'
