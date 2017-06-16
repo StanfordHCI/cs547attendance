@@ -73,8 +73,8 @@
     forceAuthn: false,
     skipRequestCompression: false,
     validateInResponseTo: true,
-    entryPoint: idps['uat'].entryPoint,
-    cert: idps['uat'].cert,
+    entryPoint: idps['itlab'].entryPoint,
+    cert: idps['itlab'].cert,
     issuer: 'https://cs547check.herokuapp.com/'
   };
   saml = new SamlStrategy(saml_config, function(profile, done){

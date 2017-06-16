@@ -29,6 +29,7 @@
     "koa-router": "^5.4.0",
     "koa-session": "1",
     "koa-static": "^2.0.0",
+    "livescript": "^1.5.0",
     "passport-google-oauth20": "^1.0.0",
     "passport-saml": "^0.15.0",
     "promise-debounce": "^1.0.1",

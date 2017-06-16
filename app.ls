@@ -193,8 +193,10 @@ saml_config = {
   forceAuthn: false
   skipRequestCompression: false
   validateInResponseTo: true
-  entryPoint: idps['uat'].entryPoint #'https://idp.itlab.stanford.edu/idp/shibboleth'
-  cert: idps['uat'].cert
+  entryPoint: idps['itlab'].entryPoint #'https://idp.itlab.stanford.edu/idp/shibboleth'
+  cert: idps['itlab'].cert
+  #entryPoint: idps['uat'].entryPoint #'https://idp.itlab.stanford.edu/idp/shibboleth'
+  #cert: idps['uat'].cert
   #issuer: 'https://localhost:5000/login/callback'
   issuer: 'https://cs547check.herokuapp.com/' #'https://localhost:5000/saml/consume'
   #issuer: 'passport-saml'
