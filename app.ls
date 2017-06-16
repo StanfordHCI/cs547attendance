@@ -36,6 +36,10 @@ kapp.use(session({}, kapp))
 
 passport = require 'koa-passport'
 
+kapp.use passport.initialize()
+kapp.use passport.session()
+
+/*
 idps = {
   'itlabv2': {
     entityID:     'https://idp.itlab.stanford.edu/idp/shibboleth',
@@ -271,18 +275,28 @@ app.get '/secret', auth, ->*
   console.log this.req.user
   this.body = 'secret stuff'
 
-/*
+*/
+
+
 SUSamlStrategy = require('passport-stanford').Strategy
 saml = new SUSamlStrategy({
-  idp: 'https://idp.itlab.stanford.edu/idp/shibboleth'
+  protocol: 'https://'
+  idp: 'itlabv2'
   #entityId: 'https://:5000/'
-  entityId: 'https://idp.itlab.stanford.edu/idp/shibboleth'
+  entityId: 'https://cs547check.herokuapp.com/'
   loginPath: '/login'
-  path: '/login/callback'
+  path: '/saml/consume'
+  passReqToCallback: true
+  passport: passport
+  decryptionPvk: getsecret('sp_key')
+  decryptionCert: getsecret('sp_cert')
   #acsPath: '/saml/consume'
-  entryPoint: 'https://idp.itlab.stanford.edu/idp/shibboleth'
+  #entryPoint: 'https://idp.itlab.stanford.edu/idp/shibboleth'
   #issuer: 'passport-saml'
+  host: 'cs547check.herokuapp.com'
 })
+
+passport.use(saml)
 
 passport.serializeUser (user, done) ->
   done(null, user)
@@ -290,11 +304,32 @@ passport.serializeUser (user, done) ->
 passport.deserializeUser (user, done) ->
   done(null, user)
 
-passport.use(saml)
+app.post '/saml/consume', passport.authenticate(saml.name), ->*
+  #this.redirect('/secret')
+  if this.session
+    url = this.session.authReturnUrl
+    delete this.session.authReturnUrl
+    this.redirect url
+    return
+  this.redirect '/secret'
 
-kapp.use passport.initialize()
-kapp.use passport.session()
+app.get '/login', passport.authenticate(saml.name), ->*
+  #this.redirect('/secret')
+  if this.session
+    url = this.session.authReturnUrl
+    delete this.session.authReturnUrl
+    this.redirect url
+    return
+  this.redirect '/secret'
 
+app.get '/metadata', ->*
+  this.type = 'application/xml'
+  this.status = 200
+  this.body = saml.generateServiceProviderMetadata(getsecret('sp_cert'))
+  # pass decryptionCert as argument
+  # https://github.com/bergie/passport-saml/blob/master/lib/passport-saml/saml.js
+
+/*
 app.get '/login', passport.authenticate(saml.name, {successRedirect: '/', failureRedirect: '/login'}), ->*
   #this.body = 'login'
   #saml.return('/')
