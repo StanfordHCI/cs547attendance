@@ -27,12 +27,12 @@ kapp = koa()
 kapp.use(koa-logger())
 app = koa-router()
 
+bodyParser = require('koa-bodyparser')
+kapp.use(bodyParser())
+
 session = require('koa-session')
 kapp.keys = [getsecret('session_keys')]
-kapp.use(session(kapp))
-
-bodyParser = require('koa-bodyparser')
-app.use(bodyParser())
+kapp.use(session({}, kapp))
 
 passport = require 'koa-passport'
 
