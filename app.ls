@@ -182,6 +182,8 @@ saml_config = {
   path: '/Shibboleth.sso/SAML2/POST'
   loginPath: '/login'
   host: 'cs547check.stanford.edu'
+  decryptionPvk: getsecret('sp_key')
+  decryptionCert: getsecret('sp_cert')
   protocol: 'https://'
   signatureAlgorithm: 'sha256'
   identifierFormat: 'urn:oasis:names:tc:SAML:2.0:nameid-format:transient'
@@ -249,7 +251,7 @@ app.get '/Shibboleth.sso/SAML2/GET', passport.authenticate('saml'), ->*
 app.get '/Shibboleth.sso/Metadata', ->*
   this.type = 'application/xml'
   this.status = 200
-  this.body = saml.generateServiceProviderMetadata()
+  this.body = saml.generateServiceProviderMetadata(getsecret('sp_cert'))
   # pass decryptionCert as argument
   # https://github.com/bergie/passport-saml/blob/master/lib/passport-saml/saml.js
 
