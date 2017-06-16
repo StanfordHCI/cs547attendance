@@ -61,7 +61,7 @@
   saml_config = {
     path: '/Shibboleth.sso/SAML2/POST',
     loginPath: '/login',
-    host: 'cs547check.stanford.edu',
+    host: 'cs547check.herokuapp.com',
     decryptionPvk: getsecret('sp_key'),
     decryptionCert: getsecret('sp_cert'),
     protocol: 'https://',
@@ -75,7 +75,7 @@
     validateInResponseTo: true,
     entryPoint: idps['uat'].entryPoint,
     cert: idps['uat'].cert,
-    issuer: 'https://cs547check.stanford.edu/'
+    issuer: 'https://cs547check.herokuapp.com/'
   };
   saml = new SamlStrategy(saml_config, function(profile, done){
     return done(null, profile);

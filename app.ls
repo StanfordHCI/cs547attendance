@@ -181,7 +181,7 @@ saml_config = {
   #path: '/saml/consume'
   path: '/Shibboleth.sso/SAML2/POST'
   loginPath: '/login'
-  host: 'cs547check.stanford.edu'
+  host: 'cs547check.herokuapp.com'
   decryptionPvk: getsecret('sp_key')
   decryptionCert: getsecret('sp_cert')
   protocol: 'https://'
@@ -196,7 +196,7 @@ saml_config = {
   entryPoint: idps['uat'].entryPoint #'https://idp.itlab.stanford.edu/idp/shibboleth'
   cert: idps['uat'].cert
   #issuer: 'https://localhost:5000/login/callback'
-  issuer: 'https://cs547check.stanford.edu/' #'https://localhost:5000/saml/consume'
+  issuer: 'https://cs547check.herokuapp.com/' #'https://localhost:5000/saml/consume'
   #issuer: 'passport-saml'
   #protocol: 'http'
 }
