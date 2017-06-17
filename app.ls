@@ -526,6 +526,9 @@ for let filepath in glob.sync('www/**')
   app.get(fileroute, auth, serve_static)
 
 app.get '/', auth, ->*
+  console.log this.req
+  console.log this.req.user
+  console.log this.req.user.primary_email
   index_with_login = index_contents.replace('SOME_USERNAME_GOES_HERE', this.req.user.primary_email)
   this.body = index_with_login
 
