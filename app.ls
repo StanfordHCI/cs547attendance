@@ -28,11 +28,14 @@ kapp.use(koa-logger())
 app = koa-router()
 
 bodyParser = require('koa-bodyparser')
-kapp.use(bodyParser())
+kapp.use(bodyParser({extendTypes: {json: ['json', '**/json']}}))
 
-session = require('koa-session')
+#session = require('koa-session')
+session = require('koa-generic-session')
 kapp.keys = [getsecret('session_keys')]
-kapp.use(session({}, kapp))
+#kapp.use(session({}, kapp))
+#kapp.use(session({key: 'test.cookie'}))
+kapp.use(session({key: 'test.cookie'}))
 
 passport = require 'koa-passport'
 
@@ -281,7 +284,7 @@ app.get '/secret', auth, ->*
 SUSamlStrategy = require('passport-stanford').Strategy
 saml = new SUSamlStrategy({
   protocol: 'https://'
-  idp: 'itlabv2'
+  idp: 'prod' #'itlabv2'
   #entityId: 'https://:5000/'
   entityId: 'https://cs547check.herokuapp.com/'
   loginPath: '/login'
@@ -304,23 +307,38 @@ passport.serializeUser (user, done) ->
 passport.deserializeUser (user, done) ->
   done(null, user)
 
-app.post '/saml/consume', passport.authenticate(saml.name), ->*
+app.post '/saml/consume', passport.authenticate(saml.name, {failureRedirect: '/', failureFlash: true}), ->*
+  this.redirect '/'
+  /*
   #this.redirect('/secret')
+  console.log 'saml.name is'
+  console.log saml.name
+  console.log 'saml consume was called'
   if this.session
+    console.log 'this.session is'
+    console.log this.sesion
     url = this.session.authReturnUrl
     delete this.session.authReturnUrl
     this.redirect url
     return
   this.redirect '/secret'
+  */
 
+app.get '/login', passport.authenticate(saml.name, {successRedirect: '/', failureRedirect: '/login'})
+
+/*
 app.get '/login', passport.authenticate(saml.name), ->*
+  console.log 'login was called'
   #this.redirect('/secret')
   if this.session
+    console.log 'this.session is'
+    console.log this.session
     url = this.session.authReturnUrl
     delete this.session.authReturnUrl
     this.redirect url
     return
   this.redirect '/secret'
+*/
 
 app.get '/metadata', ->*
   this.type = 'application/xml'
@@ -328,6 +346,17 @@ app.get '/metadata', ->*
   this.body = saml.generateServiceProviderMetadata(getsecret('sp_cert'))
   # pass decryptionCert as argument
   # https://github.com/bergie/passport-saml/blob/master/lib/passport-saml/saml.js
+
+auth = (next) ->*
+  if this.isAuthenticated()
+    yield next
+  else
+    this.redirect('/login')
+
+app.get '/secret', auth, ->*
+  console.log this.req.user
+  console.log this.req.user.primary_email
+  this.body = 'secret stuff'
 
 /*
 app.get '/login', passport.authenticate(saml.name, {successRedirect: '/', failureRedirect: '/login'}), ->*
@@ -440,7 +469,7 @@ list_all_users = cfy ->*
   output.sort()
   return output
 
-app.get '/attendance', ->*
+app.get '/attendance', auth, ->*
   {sunetid} = this.request.query
   if not sunetid?
     this.body = JSON.stringify []
@@ -448,7 +477,7 @@ app.get '/attendance', ->*
   seminars = yield get_seminars_attended_by_user sunetid
   this.body = JSON.stringify seminars
 
-app.get '/pass_nopass', ->*
+app.get '/pass_nopass', auth, ->*
   output = []
   all_users = yield list_all_users()
   for user in all_users
@@ -457,7 +486,7 @@ app.get '/pass_nopass', ->*
     output.push "#{user}: #{passed}"
   this.body = output.join('\n')
 
-app.get '/nopass', ->*
+app.get '/nopass', auth, ->*
   output = []
   all_users = yield list_all_users()
   for user in all_users
@@ -485,10 +514,20 @@ do cfy ->*
   console.log results
 */
 
+index_contents = fs.readFileSync 'www/index.html', 'utf-8'
+
 serve_static = koa-static(__dirname + '/www')
 for let filepath in glob.sync('www/**')
   fileroute = filepath.replace('www', '')
-  app.get(fileroute, serve_static)
+  if fileroute == ''
+    return
+  if fileroute == '/index.html'
+    return
+  app.get(fileroute, auth, serve_static)
+
+app.get '/', auth, ->*
+  index_with_login = index_contents.replace('SOME_USERNAME_GOES_HERE', this.req.user.primary_email)
+  this.body = index_with_login
 
 #kapp.use(app.routes())
 #kapp.use(app.allowedMethods())

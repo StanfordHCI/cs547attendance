@@ -57,7 +57,7 @@
   };
   out$.check_clicked = check_clicked = function(){
     var sunetid;
-    sunetid = $('#sunetid_input').val();
+    sunetid = window.sunetid;
     if (sunetid == null || sunetid.length === 0) {
       alert('Please enter your SUNet ID');
       return;
@@ -88,6 +88,7 @@
     }
   };
   $(document).ready(function(){
-    return $('#sunetid_input').focus();
+    $('#display_sunetid').text(window.sunetid);
+    return check_clicked();
   });
 }).call(this);

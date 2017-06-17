@@ -44,7 +44,8 @@ export sorted_by_date = (input_strings) ->
     
 
 export check_clicked = ->
-  sunetid = $('#sunetid_input').val()
+  #sunetid = $('#sunetid_input').val()
+  sunetid = window.sunetid
   if not sunetid? or sunetid.length == 0
     alert 'Please enter your SUNet ID'
     return
@@ -66,4 +67,6 @@ export sunetid_keydown = (event) ->
     check_clicked()
 
 $(document).ready ->
-  $('#sunetid_input').focus()
+  #$('#sunetid_input').focus()
+  $('#display_sunetid').text(window.sunetid)
+  check_clicked()

@@ -3,14 +3,25 @@
   <title>CS 547 Seminar Attendance Checker</title>
 </head>
 <body>
+  <!--
   Enter your SUNet ID to see which seminars you are recorded as having attended.<br>
   If any are missing, record your attendance at <a href="http://hci.st/547">http://hci.st/547</a><br>
   It may take up to 30 seconds after you enter your attendance for the results to be reflected on this site.
   <br><br>
   Your SUNet ID (ie, gkovacs): <input id="sunetid_input" onkeydown="sunetid_keydown(event)"> <button onclick="check_clicked()">Check</button>
   <br><br>
+  -->
+  You are logged in as <span id="display_sunetid"></span><br>
+  Below are the seminars you are recorded as having attended for CS547.<br>
+  If any are missing, record your attendance at <a href="http://hci.st/547">http://hci.st/547</a><br>
+  It may take up to 30 seconds after you enter your attendance for the results to be reflected on this site.<br>
+  <br>
   <div id="results_view"></div>
 <script src="bower_components/jquery/dist/jquery.min.js"></script>
+<script>
+window.username = 'SOME_USERNAME_GOES_HERE'
+window.sunetid = window.username.replace('@stanford.edu', '').replace('@itlab.stanford.edu', '')
+</script>
 <script src="index.js"></script>
 </body>
 </html>
