@@ -529,7 +529,9 @@ app.get '/', auth, ->*
   console.log this.req
   console.log this.req.user
   console.log this.req.user.primary_email
-  index_with_login = index_contents.replace('SOME_USERNAME_GOES_HERE', this.req.user.primary_email)
+  email = this.req.user.primary_email ? this.req.user.email
+  console.log email
+  index_with_login = index_contents.replace('SOME_USERNAME_GOES_HERE', email)
   this.body = index_with_login
 
 #kapp.use(app.routes())
