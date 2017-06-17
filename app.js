@@ -524,16 +524,11 @@
   }
   app.get('/', auth, function*(){
     var email, ref$, index_with_login;
-    console.log(this.req);
-    console.log('this.req.user is:');
-    console.log(this.req.user);
     email = (ref$ = this.req.user.primary_email) != null
       ? ref$
       : (ref$ = this.req.user.email) != null
         ? ref$
         : this.req.user.mail;
-    console.log('user emial is:');
-    console.log(email);
     index_with_login = index_contents.replace('SOME_USERNAME_GOES_HERE', email);
     return this.body = index_with_login;
   });
