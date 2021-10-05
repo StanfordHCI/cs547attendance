@@ -467,10 +467,13 @@
   app.get('/attendance', auth, function*(){
     var sunetid, seminars;
     sunetid = this.request.query.sunetid;
+	console.log 'query sunet is'
+    console.log this.request.query.sunetid
     if (sunetid == null) {
       this.body = JSON.stringify([]);
       return;
     }
+	console.log 'about to grab seminars'
     seminars = (yield get_seminars_attended_by_user(sunetid));
     return this.body = JSON.stringify(seminars);
   });
