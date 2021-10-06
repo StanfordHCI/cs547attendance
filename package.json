@@ -19,7 +19,7 @@
   "homepage": "https://github.com/gkovacs/cs547attendance#readme",
   "dependencies": {
     "cfy": "^1.0.18",
-    "getsecret": "^1.0.1",
+    "getsecret": "^1.0.2",
     "glob": "^7.1.2",
     "google-spreadsheet": "^3.1.15",
     "koa": "^1.2.4",
@@ -33,7 +33,9 @@
     "passport-google-oauth20": "^1.0.0",
     "passport-stanford": "^1.1.1",
     "promise-debounce": "^1.0.1",
-    "self-signed-https": "^1.0.5"
+    "self-signed-https": "^1.0.5",
+    "util": "^0.12.4",
+    "utils": "^0.3.1"
   },
   "devDependencies": {
     "cheerio": "^0.22.0",
