@@ -44,3 +44,16 @@ If you make modifications to `app.ls` then run [lsc](https://www.npmjs.com/packa
 yarn global add livescript
 lsc -c app.ls
 ```
+
+If you need to develop the app locally, make sure to copy the config vars to a local ".env" [file](https://drive.google.com/file/d/1Jh413O92qfgJ_V7a7aTtmjF8JF0mC-sL/view?usp=sharing). This should be in .gitignore -- careful not push it to Heroku!
+
+To run locally:
+```
+heroku local web
+```
+and go to localhost:5000 in your browser. To bypass the authentication stuff when developing, comment out all the authentication code in app.js.
+
+To deploy the app, commit your changes and follow directions [here](https://devcenter.heroku.com/articles/git). Then:
+```
+git push heroku
+```
