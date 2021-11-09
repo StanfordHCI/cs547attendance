@@ -36,36 +36,36 @@
   kapp.use(passport.initialize());
   kapp.use(passport.session());
 
-  // SUSamlStrategy = require('passport-stanford').Strategy;
-  // saml = new SUSamlStrategy({
-  //   protocol: 'https://',
-  //   idp: 'prod',
-  //   entityId: 'https://cs547check.herokuapp.com/',
-  //   loginPath: '/login',
-  //   path: '/saml/consume',
-  //   passReqToCallback: true,
-  //   passport: passport,
-  //   decryptionPvk: getsecret('sp_key'),
-  //   decryptionCert: getsecret('sp_cert'),
-  //   host: 'cs547check.herokuapp.com'
-  // });
-  // passport.use(saml);
-  // passport.serializeUser(function(user, done){
-  //   return done(null, user);
-  // });
+  SUSamlStrategy = require('passport-stanford').Strategy;
+  saml = new SUSamlStrategy({
+    protocol: 'https://',
+    idp: 'prod',
+    entityId: 'https://cs547check.herokuapp.com/',
+    loginPath: '/login',
+    path: '/saml/consume',
+    passReqToCallback: true,
+    passport: passport,
+    decryptionPvk: getsecret('sp_key'),
+    decryptionCert: getsecret('sp_cert'),
+    host: 'cs547check.herokuapp.com'
+  });
+  passport.use(saml);
+  passport.serializeUser(function(user, done){
+    return done(null, user);
+  });
   passport.deserializeUser(function(user, done){
     return done(null, user);
   });
-  // app.post('/saml/consume', passport.authenticate(saml.name, {
-  //   failureRedirect: '/',
-  //   failureFlash: true
-  // }), function*(){
-  //   return this.redirect('/');
-  // });
-  // app.get('/login', passport.authenticate(saml.name, {
-  //   successRedirect: '/',
-  //   failureRedirect: '/login'
-  // }));
+  app.post('/saml/consume', passport.authenticate(saml.name, {
+    failureRedirect: '/',
+    failureFlash: true
+  }), function*(){
+    return this.redirect('/');
+  });
+  app.get('/login', passport.authenticate(saml.name, {
+    successRedirect: '/',
+    failureRedirect: '/login'
+  }));
 
   app.get('/metadata', function*(){
     this.type = 'application/xml';
@@ -192,8 +192,19 @@
       if (output_set[seminar] != null) {
         continue;
       }
+      // If no longer keeping track of live/non-live attendance, comment out the following block
+      attendance_status = line['Attendance:'];
+      attendance_string = '';
+      if (attendance_status == 'I certify by the Stanford Honor Code that I attended the entire seminar *live* during the Zoom Webinar') {
+        attendance_string = '-- Live attendance';
+      }
+      else {
+        attendance_string = '-- Non-Live attendance';
+      }
+      // End of block.
+
       output_set[seminar] = true;
-      output.push(seminar);
+      output.push(seminar.concat("  ", attendance_string));
     }
     return output;
   });
