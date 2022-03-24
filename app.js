@@ -195,11 +195,11 @@
       // If no longer keeping track of live/non-live attendance, comment out the following block
       attendance_status = line['Attendance:'];
       attendance_string = '';
-      if (attendance_status == 'I certify by the Stanford Honor Code that I attended the entire seminar *live* during the Zoom Webinar') {
-        attendance_string = '-- Live attendance';
+      if (attendance_status == 'I certify by the Stanford Honor Code that I watched the entire seminar *non-live* (up to 2 per quarter, unless you are an SCPD student or in a timezone that makes live attendance infeasible with email exemption from staff)') {
+        attendance_string = '-- Non-Live attendance';
       }
       else {
-        attendance_string = '-- Non-Live attendance';
+        attendance_string = '-- Live attendance';
       }
       // End of block.
 
